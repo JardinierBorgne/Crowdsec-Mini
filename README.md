@@ -20,7 +20,7 @@ Pour installer notre script Python, suivez ces étapes :
 
 1. Clonez le repository :
    ```bash
-   git clone https://github.com/JardinierBorgne/Corwdsec-Mini.git
+   git clone https://github.com/JardinierBorgne/Crowdsec-Mini.git
    ```
    Remplacez `username` et `repository` par vos informations.
 
