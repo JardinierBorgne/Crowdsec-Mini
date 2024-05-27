@@ -1,5 +1,3 @@
-Voici une version améliorée et plus attrayante de votre README :
-
 ---
 
 # Crowdsec-Mini
@@ -66,8 +64,6 @@ Pour installer notre script Python, suivez ces étapes :
 ## Auteurs
 
 - **Kylian**
-- **Nathan** - [nathan.boel@live.fr](mailto:nathan.boel@live.fr)
+- **Nathan**
 
 ---
-
-Cette version est plus structurée, utilise des sections claires, et inclut des exemples de commandes et des espaces pour les captures d'écran, ce qui la rend plus accessible et facile à suivre pour les utilisateurs.
