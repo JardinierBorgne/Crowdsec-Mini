@@ -63,7 +63,5 @@ Pour installer notre script Python, suivez ces étapes :
 
 ## Auteurs
 
-- **Kylian**
-- **Nathan**
-
+- **Kylian** & **Nathan**
 ---
