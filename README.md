@@ -22,7 +22,6 @@ Pour installer notre script Python, suivez ces étapes :
    ```bash
    git clone https://github.com/JardinierBorgne/Crowdsec-Mini.git
    ```
-   Remplacez `username` et `repository` par vos informations.
 
 2. Accédez au répertoire cloné :
    ```bash
