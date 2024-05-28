@@ -33,12 +33,18 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```bash
    chmod +x Install.sh
    ./Install.sh
-   ``` 
+   ```
+Alternativement, vous pouvez installer les dépendances manuellement avec pip :
+
+   ```bash
+   pip install psutil OU apt install python3-psutil
+   ```
 
 4. Exécutez le script :
    ```bash
-   python3 script.py
+   python3 Crowdsec-Mini.py
    ```
+   
 
 ## Exemple d'Utilisation
 
