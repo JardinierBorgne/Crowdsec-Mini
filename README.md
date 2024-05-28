@@ -8,11 +8,11 @@ Dans le contexte actuel de la cybersécurité, il est essentiel de surveiller en
 
 ## Pré-requis
 
-Pour pouvoir exécuter le script sans soucis, assurez-vous d'avoir installé les éléments suivants :
+Pour pouvoir exécuter le script sans soucis, assurez-vous d'avoir les éléments suivants :
 
-- **Python 3**
-- La bibliothèque **psutil**
-- La bibliothèque **xxx**
+- **Un accès internet**
+- **Une debian 12**
+- **Des droits root administrateurs pour exécuter les scripts**
 
 ## Installation et Exécution
 
@@ -25,14 +25,15 @@ Pour installer notre script Python, suivez ces étapes :
 
 2. Accédez au répertoire cloné :
    ```bash
-   cd repository
+   cd Crowdsec-Mini
    ```
 
-3. Installez les dépendances requises :
+3. Installer les dépendances requises :
+Installez les dépendances nécessaires en utilisant le script d'installation nommé Install.sh. Assurez-vous que ce script a les droits d'exécution :
    ```bash
-   pip install psutil
-   pip install xxx
-   ```
+   chmod +x Install.sh
+   ./Install.sh
+   ``` 
 
 4. Exécutez le script :
    ```bash
