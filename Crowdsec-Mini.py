@@ -18,9 +18,9 @@ def check_high_cpu_usage(alert_file):
             if cpu_usage_rounded > CPU_THRESHOLD:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {cpu_usage_rounded}% CPU!\n")
+                alert_file.flush()  # Forcing write to file
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
-
 
 def check_high_ram_usage(alert_file):
     for proc in psutil.process_iter(['pid', 'name', 'memory_percent']):
@@ -32,6 +32,7 @@ def check_high_ram_usage(alert_file):
             if ram_usage_rounded > RAM_THRESHOLD:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {ram_usage_rounded}% of RAM!\n")
+                alert_file.flush()  # Forcing write to file
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
@@ -50,6 +51,7 @@ def detect_suspicious_processes(known_pids, alert_file):
                     suspicious_processes.append(proc_info)
                     known_pids.add(pid)
                     alert_file.write(f"{current_time} - Alert: Suspicious process detected - PID: {pid}, Name: {proc_info['name']}\n")
+                    alert_file.flush()  # Forcing write to file
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
@@ -72,6 +74,7 @@ def detect_suspicious_connections(alert_file):
                         if proc.name() not in known_processes:
                             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             alert_file.write(f"{current_time} - Suspicious network connection detected - Process: {proc.name()}, IP: {ip}, Port: {port}, PID: {proc.pid}\n")
+                            alert_file.flush()  # Forcing write to file
                             suspicious_connections.append({
                                 'process_name': proc.name(),
                                 'ip': ip,
@@ -86,31 +89,27 @@ def detect_suspicious_connections(alert_file):
 def main():
     known_pids = set()
 
-    # Open file for alerts related to suspicious processes
-    with open('suspicious_processes_alerts.txt', 'a') as process_alert_file:
-        print("Initial check for suspicious root processes:")
-        suspicious_processes = detect_suspicious_processes(known_pids, process_alert_file)
-        if suspicious_processes:
-            for proc in suspicious_processes:
-                print(f"PID: {proc['pid']}, Name: {proc['name']}")
-
     while True:
-        # Open file for general alerts
-        with open('general_alerts.txt', 'a') as general_alert_file:
-            check_high_cpu_usage(general_alert_file)
-            check_high_ram_usage(general_alert_file)
+        # Open files for alerts
+        with open('cpu_alerts.txt', 'a') as cpu_alert_file, \
+                open('ram_alerts.txt', 'a') as ram_alert_file, \
+                open('ip_alerts.txt', 'a') as ip_alert_file, \
+                open('root_alerts.txt', 'a') as root_alert_file:
 
-            suspicious_processes = detect_suspicious_processes(known_pids, general_alert_file)
+            check_high_cpu_usage(cpu_alert_file)
+            check_high_ram_usage(ram_alert_file)
+
+            suspicious_processes = detect_suspicious_processes(known_pids, root_alert_file)
             if suspicious_processes:
-                print("New unknown or suspicious processes running as root:")
                 for proc in suspicious_processes:
-                    print(f"PID: {proc['pid']}, Name: {proc['name']}")
+                    root_alert_file.write(f"PID: {proc['pid']}, Name: {proc['name']}\n")
+                    root_alert_file.flush()  # Forcing write to file
 
-            suspicious_connections = detect_suspicious_connections(general_alert_file)
+            suspicious_connections = detect_suspicious_connections(ip_alert_file)
             if suspicious_connections:
-                print("Suspicious network connections detected:")
                 for conn in suspicious_connections:
-                    print(f"Suspicious process: {conn['process_name']} with unusual network connection to {conn['ip']}:{conn['port']} (PID: {conn['pid']}), Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+                    ip_alert_file.write(f"Suspicious process: {conn['process_name']} with unusual network connection to {conn['ip']}:{conn['port']} (PID: {conn['pid']}), Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                    ip_alert_file.flush()  # Forcing write to file
 
         time.sleep(10)
 
