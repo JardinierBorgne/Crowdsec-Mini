@@ -38,10 +38,14 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```bash
    pip install psutil
    ```
-      **OU**
+   **OU**
    ```bash
    apt install python3-psutil
    ```
+
+
+
+
 
 **4. Exécutez le script :**
    ```bash
