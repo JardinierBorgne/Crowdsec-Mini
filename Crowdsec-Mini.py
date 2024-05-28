@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 CPU_THRESHOLD = 80
-RAM_THRESHOLD = 80
+RAM_THRESHOLD = 70
 
 def get_expected_processes():
     return ['sshd', 'cron', 'apache2']
@@ -14,11 +14,13 @@ def check_high_cpu_usage(alert_file):
             cpu_usage = proc.info['cpu_percent']
             if cpu_usage is None:
                 continue
-            if cpu_usage > CPU_THRESHOLD:
+            cpu_usage_rounded = round(cpu_usage, 2)  # Arrondir à 2 chiffres après la virgule
+            if cpu_usage_rounded > CPU_THRESHOLD:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {cpu_usage}% CPU!\n")
+                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {cpu_usage_rounded}% CPU!\n")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
+
 
 def check_high_ram_usage(alert_file):
     for proc in psutil.process_iter(['pid', 'name', 'memory_percent']):
@@ -26,13 +28,12 @@ def check_high_ram_usage(alert_file):
             ram_usage = proc.info['memory_percent']
             if ram_usage is None:
                 continue
-            if ram_usage > RAM_THRESHOLD:
+            ram_usage_rounded = round(ram_usage, 2)  # Arrondir à 2 chiffres après la virgule
+            if ram_usage_rounded > RAM_THRESHOLD:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {ram_usage}% of RAM!\n")
+                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {ram_usage_rounded}% of RAM!\n")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
-
-
 
 def detect_suspicious_processes(known_pids, alert_file):
     expected_processes = get_expected_processes()
@@ -92,11 +93,12 @@ def main():
         if suspicious_processes:
             for proc in suspicious_processes:
                 print(f"PID: {proc['pid']}, Name: {proc['name']}")
-    
-    # Open file for general alerts
-    with open('general_alerts.txt', 'a') as general_alert_file:
-        while True:
+
+    while True:
+        # Open file for general alerts
+        with open('general_alerts.txt', 'a') as general_alert_file:
             check_high_cpu_usage(general_alert_file)
+            check_high_ram_usage(general_alert_file)
 
             suspicious_processes = detect_suspicious_processes(known_pids, general_alert_file)
             if suspicious_processes:
@@ -110,7 +112,7 @@ def main():
                 for conn in suspicious_connections:
                     print(f"Suspicious process: {conn['process_name']} with unusual network connection to {conn['ip']}:{conn['port']} (PID: {conn['pid']}), Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
-            time.sleep(10)
+        time.sleep(10)
 
 if __name__ == "__main__":
     main()
