@@ -18,29 +18,28 @@ Pour pouvoir exécuter le script sans soucis, assurez-vous d'avoir les élément
 
 Pour installer notre script Python, suivez ces étapes :
 
-1. Clonez le repository :
+**1. Clonez le repository :**
    ```bash
    git clone https://github.com/JardinierBorgne/Crowdsec-Mini.git
    ```
 
-2. Accédez au répertoire cloné :
+**2. Accédez au répertoire cloné :**
    ```bash
    cd Crowdsec-Mini
    ```
 
-3. Installer les dépendances requises :
+**3. Installer les dépendances requises :**
 Installez les dépendances nécessaires en utilisant le script d'installation nommé Install.sh. Assurez-vous que ce script a les droits d'exécution :
    ```bash
    chmod +x Install.sh
    ./Install.sh
    ```
-Alternativement, vous pouvez installer les dépendances manuellement avec pip :
-
+   Alternativement, vous pouvez installer les dépendances manuellement avec pip :
    ```bash
    pip install psutil OU apt install python3-psutil
    ```
 
-4. Exécutez le script :
+**4. Exécutez le script :**
    ```bash
    python3 Crowdsec-Mini.py
    ```
