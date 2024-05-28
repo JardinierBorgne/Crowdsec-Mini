@@ -1,7 +1,9 @@
 import psutil
 import time
+from datetime import datetime
 
 CPU_THRESHOLD = 80
+RAM_THRESHOLD = 80
 
 def get_expected_processes():
     return ['sshd', 'cron', 'apache2']
@@ -13,9 +15,24 @@ def check_high_cpu_usage(alert_file):
             if cpu_usage is None:
                 continue
             if cpu_usage > CPU_THRESHOLD:
-                alert_file.write(f"Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {cpu_usage}% CPU!\n")
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {cpu_usage}% CPU!\n")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
+
+def check_high_ram_usage(alert_file):
+    for proc in psutil.process_iter(['pid', 'name', 'memory_percent']):
+        try:
+            ram_usage = proc.info['memory_percent']
+            if ram_usage is None:
+                continue
+            if ram_usage > RAM_THRESHOLD:
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                alert_file.write(f"{current_time} - Alert: Process {proc.info['name']} (PID: {proc.info['pid']}) is using {ram_usage}% of RAM!\n")
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+
+
 
 def detect_suspicious_processes(known_pids, alert_file):
     expected_processes = get_expected_processes()
@@ -28,9 +45,10 @@ def detect_suspicious_processes(known_pids, alert_file):
             pid = proc_info['pid']
             if proc_info['username'] == 'root' and proc_info['name'] not in expected_processes:
                 if pid not in known_pids:
+                    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     suspicious_processes.append(proc_info)
                     known_pids.add(pid)
-                    alert_file.write(f"Alert: Suspicious process detected - PID: {pid}, Name: {proc_info['name']}\n")
+                    alert_file.write(f"{current_time} - Alert: Suspicious process detected - PID: {pid}, Name: {proc_info['name']}\n")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
@@ -51,7 +69,8 @@ def detect_suspicious_connections(alert_file):
                     try:
                         proc = psutil.Process(conn.pid)
                         if proc.name() not in known_processes:
-                            alert_file.write(f"Suspicious network connection detected - Process: {proc.name()}, IP: {ip}, Port: {port}, PID: {proc.pid}\n")
+                            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            alert_file.write(f"{current_time} - Suspicious network connection detected - Process: {proc.name()}, IP: {ip}, Port: {port}, PID: {proc.pid}\n")
                             suspicious_connections.append({
                                 'process_name': proc.name(),
                                 'ip': ip,
@@ -67,7 +86,7 @@ def main():
     known_pids = set()
 
     # Open file for alerts related to suspicious processes
-    with open('suspicious_processes_alerts.txt', 'w') as process_alert_file:
+    with open('suspicious_processes_alerts.txt', 'a') as process_alert_file:
         print("Initial check for suspicious root processes:")
         suspicious_processes = detect_suspicious_processes(known_pids, process_alert_file)
         if suspicious_processes:
@@ -75,7 +94,7 @@ def main():
                 print(f"PID: {proc['pid']}, Name: {proc['name']}")
     
     # Open file for general alerts
-    with open('general_alerts.txt', 'w') as general_alert_file:
+    with open('general_alerts.txt', 'a') as general_alert_file:
         while True:
             check_high_cpu_usage(general_alert_file)
 
@@ -89,7 +108,7 @@ def main():
             if suspicious_connections:
                 print("Suspicious network connections detected:")
                 for conn in suspicious_connections:
-                    print(f"Suspicious process: {conn['process_name']} with unusual network connection to {conn['ip']}:{conn['port']} (PID: {conn['pid']})")
+                    print(f"Suspicious process: {conn['process_name']} with unusual network connection to {conn['ip']}:{conn['port']} (PID: {conn['pid']}), Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
             time.sleep(10)
 
