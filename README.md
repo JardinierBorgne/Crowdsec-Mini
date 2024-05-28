@@ -43,19 +43,14 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    apt install python3-psutil
    ```
 
-
-
-
-
 **4. Exécutez le script :**
    ```bash
    python3 Crowdsec-Mini.py
    ```
    
-
 ## Exemple d'Utilisation
 
-1. **Lancer le script d'installation (si disponible)** :
+1. **Lancement du script d'installation (Install.sh)** :
    ```bash
    ./install_script.sh
    ```
