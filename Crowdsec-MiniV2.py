@@ -156,24 +156,36 @@ def check_iptables_status():
 def main():
     known_pids = set()
 
-    while True:
-        with open('cpu_alerts.txt', 'a') as cpu_alert_file, \
-                open('ram_alerts.txt', 'a') as ram_alert_file, \
-                open('ip_alerts.txt', 'a') as ip_alert_file, \
-                open('root_alerts.txt', 'a') as root_alert_file:
+    print("--------------------")
+    print("Script started.")
+    print("--------------------")
 
-            check_high_cpu_usage(cpu_alert_file)
-            check_high_ram_usage(ram_alert_file)
+    try:
+        while True:
+            with open('cpu_alerts.txt', 'a') as cpu_alert_file, \
+                    open('ram_alerts.txt', 'a') as ram_alert_file, \
+                    open('ip_alerts.txt', 'a') as ip_alert_file, \
+                    open('root_alerts.txt', 'a') as root_alert_file:
 
-            detect_suspicious_processes(known_pids, root_alert_file)
-            detect_suspicious_connections(ip_alert_file)
+                check_high_cpu_usage(cpu_alert_file)
+                check_high_ram_usage(ram_alert_file)
 
-        is_rsyslog_running()
-        check_auditd_status()
-        check_cron_status()
-        check_iptables_status()
+                detect_suspicious_processes(known_pids, root_alert_file)
+                detect_suspicious_connections(ip_alert_file)
 
-        time.sleep(10)
+            is_rsyslog_running()
+            check_auditd_status()
+            check_cron_status()
+            check_iptables_status()
+
+            time.sleep(10)
+
+    except KeyboardInterrupt:
+        print("--------------------")
+        print("Script stopped.")
+        print("--------------------")
+        # Vous pouvez ajouter ici un nettoyage supplémentaire ou d'autres actions à effectuer avant de quitter.
+        pass
 
 if __name__ == "__main__":
     main()
