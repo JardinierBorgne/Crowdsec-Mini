@@ -184,7 +184,6 @@ def main():
         print("--------------------")
         print("Script stopped.")
         print("--------------------")
-        # Vous pouvez ajouter ici un nettoyage supplémentaire ou d'autres actions à effectuer avant de quitter.
         pass
 
 if __name__ == "__main__":
