@@ -56,13 +56,16 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```
    ![Capture du lancement du script](path/to/your/image.png)
 
-2. **Exécuter le script Python** :
+   ![installsh](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/57b3ff15-a998-4676-a605-0ad4ae4890f8)
+
+
+3. **Exécuter le script Python** :
    ```bash
    python3 crowdsec_mini.py
    ```
    ![Capture du script en cours d'exécution](path/to/your/image.png)
 
-3. **Simuler une attaque** :
+4. **Simuler une attaque** :
    Montrez une attaque en exemple et les alertes générées par le script. Les alertes seront renvoyées dans le fichier `alerts.log`.
 
 ## Version
