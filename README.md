@@ -63,12 +63,12 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```
    ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/5326e66c-1f3e-46a5-8ac1-34944c8ea2fd)
 
-   Différents fichier ou sont renvoyées les alertes sont dans le dossier (ce sont les différents.txt):
+   Différents fichiers où sont renvoyées les alertes sont dans le dossier (ce sont les différents.txt):
    ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/beb1d041-4e24-42dd-b7df-72e29dfa4c56)
 
 
 5. **Simuler une attaque** :
-   L'un de mes script crée fait volontairement monter le CPU à 100% :
+   L'un des scripts créés fait volontairement monter le CPU à 100% :
    ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/50b23423-c6fc-4154-b420-72550b072827)
    ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/bdb253a1-7332-4066-b282-2689173a5562)
    
