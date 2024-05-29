@@ -76,6 +76,12 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    
 ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/3d6f15a6-175b-449e-a411-eeed05218923)
 
+## Autres infos
+
+Le script Flush_Files.py permet de vider les alertes générées dans les fichiers : 
+```bash
+   python3 Flush_Files.py
+   ```
 
 ## Version
 
