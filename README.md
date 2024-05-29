@@ -11,7 +11,7 @@ Dans le contexte actuel de la cybersécurité, il est essentiel de surveiller en
 Pour pouvoir exécuter le script sans soucis, assurez-vous d'avoir les éléments suivants :
 
 - **Un accès internet**
-- **Une debian 12**
+- **Une debian (12/Bookworm de préférence)**
 - **Des droits root administrateurs pour exécuter les scripts**
 
 ## Installation et Exécution
