@@ -54,8 +54,6 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```bash
    ./install_script.sh
    ```
-   ![Capture du lancement du script]
-
    ![installsh](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/57b3ff15-a998-4676-a605-0ad4ae4890f8)
 
 
@@ -63,7 +61,6 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    ```bash
    python3 crowdsec_mini.py
    ```
-   ![Capture du script en cours d'exécution]
    ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/5326e66c-1f3e-46a5-8ac1-34944c8ea2fd)
 
    Différents fichier ou sont renvoyées les alertes sont dans le dossier (ce sont les différents.txt):
@@ -78,7 +75,6 @@ Installez les dépendances nécessaires en utilisant le script d'installation no
    Autres exemples avec une connexion TCP sur un port et une IP Public :
    
 ![image](https://github.com/JardinierBorgne/Crowdsec-Mini/assets/170959069/3d6f15a6-175b-449e-a411-eeed05218923)
-
 
 
 ## Version
